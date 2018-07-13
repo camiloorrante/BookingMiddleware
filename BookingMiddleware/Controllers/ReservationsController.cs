@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
+using System.Net.Http;
+using BookingMiddleware.Usables;
+using System.Threading.Tasks;
 
 namespace BookingMiddleware.Controllers
 {
@@ -30,7 +33,27 @@ namespace BookingMiddleware.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+          
+
+            HttpClient client = new HttpClient();
+            string url= Constant.GetPersonalApi() + "ReservationsApi/" + id;
+            Task<string[]> result = Task.WhenAll(               
+            client.GetStringAsync(url)
+             );
+            result.Wait();
+            string[] stringResults = result.Result;
+            foreach (string resultado in stringResults)
+            {
+                Console.WriteLine(resultado);
+            }
+
+            result.Wait();
+            var a= result;
+
+
+            ReservationViewModel reservationDetail = new ReservationViewModel();
             Reservation reservation = db.Reservations.Find(id);
+
             if (reservation == null)
             {
                 return HttpNotFound();
