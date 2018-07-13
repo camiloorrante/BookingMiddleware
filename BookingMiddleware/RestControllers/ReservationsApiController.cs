@@ -25,7 +25,7 @@ namespace BookingMiddleware.Controllers
 
         // GET: api/Reservations/5
         [ResponseType(typeof(Reservation))]
-        public IHttpActionResult GetReservation(int id)
+        public IHttpActionResult GetReservation(int? id)
         {
             Reservation reservation = db.Reservations.Find(id);
             if (reservation == null)
