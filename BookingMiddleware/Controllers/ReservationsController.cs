@@ -4,8 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
 using System.Net.Http;
@@ -18,7 +22,7 @@ namespace BookingMiddleware.Controllers
     {
         private BookingDbContext db = new BookingDbContext();
         private ReservationViewModel reservationViewModel = new ReservationViewModel();
-
+        static HttpClient client = new HttpClient();
         // GET: Reservations
         public ActionResult Index()
         {
@@ -79,14 +83,32 @@ namespace BookingMiddleware.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Reservations.Add(reservation);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:64888/");
+
+                    //HTTP POST
+                    var postTask = client.PostAsJsonAsync<Reservation>("api/ReservationsApi", reservation);
+                    postTask.Wait();
+
+                    var result = postTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                return RedirectToAction("Details");
             }
 
-            ViewBag.CityID = new SelectList(db.Cities, "Id", "Name", reservation.CityId);
-            return View(reservation);
+            return RedirectToAction("Create");
         }
+
+
+
+
+
 
         // POST: Reservations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
