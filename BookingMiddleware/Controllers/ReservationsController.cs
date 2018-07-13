@@ -16,14 +16,14 @@ namespace BookingMiddleware.Controllers
         private BookingDbContext db = new BookingDbContext();
         private ReservationViewModel reservationViewModel = new ReservationViewModel();
 
-        // GET: Reservations1
+        // GET: Reservations
         public ActionResult Index()
         {
             var reservations = db.Reservations.Include(r => r.City);
             return View(reservations.ToList());
         }
 
-        // GET: Reservations1/Details/5
+        // GET: Reservations/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace BookingMiddleware.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations1/Create
+        // GET: Reservations/Create
         public ActionResult Create()
         {
             reservationViewModel.Reservation = new Reservation();
@@ -47,7 +47,7 @@ namespace BookingMiddleware.Controllers
             return View(reservationViewModel);
         }
 
-        // POST: Reservations1/Create
+        // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace BookingMiddleware.Controllers
             return View(reservation);
         }
 
-        // POST: Reservations1/Edit/5
+        // POST: Reservations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
