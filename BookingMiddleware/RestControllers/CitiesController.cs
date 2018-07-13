@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
+using AutoMapper;
+using BookingMiddleware.DTO;
 
 namespace BookingMiddleware.Controllers
 {
@@ -17,12 +19,15 @@ namespace BookingMiddleware.Controllers
     {
         private BookingDbContext db = new BookingDbContext();
 
+        /// <summary>
+        /// Da de alta una lista de ciudades 
+        /// </summary>
+        /// <param name="_ciudaes"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/cities/SaveCities")]
         public IHttpActionResult SaveCities(List<City> _ciudaes)
-        {
-
-      
+        {     
             
             foreach (var ciudad in _ciudaes)
             {
@@ -40,76 +45,46 @@ namespace BookingMiddleware.Controllers
 
 
         // GET: api/Cities
-        public IQueryable<City> GetCities()
+        public IHttpActionResult GetCities()
         {
-            return db.Cities;
+            var getAll = db.Cities.ToList();
+            var dto = Mapper.Map<IEnumerable<City>, IEnumerable<CityDTO>>(getAll);
+            return Ok(dto) ;
         }
 
         // GET: api/Cities/5
-        [ResponseType(typeof(City))]
+        [ResponseType(typeof(CityDTO))]
         public IHttpActionResult GetCity(int id)
         {
             City city = db.Cities.Find(id);
+            var dto = Mapper.Map<City, CityDTO>(city);
             if (city == null)
             {
                 return NotFound();
             }
 
-            return Ok(city);
+            return Ok(dto);
         }
 
-        // PUT: api/Cities/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCity(int id, City city)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != city.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(city).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+       
         // POST: api/Cities
-        [ResponseType(typeof(City))]
-        public IHttpActionResult PostCity(City city)
+        [ResponseType(typeof(CityDTO))]
+        public IHttpActionResult PostCity(CityDTO city)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.Cities.Add(city);
+            var dto = Mapper.Map<CityDTO, City>(city);
+            var alta=db.Cities.Add(dto);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = city.Id }, city);
+            return CreatedAtRoute("DefaultApi", new { id = city.Id }, alta);
         }
 
         // DELETE: api/Cities/5
-        [ResponseType(typeof(City))]
+        [ResponseType(typeof(CityDTO))]
         public IHttpActionResult DeleteCity(int id)
         {
             City city = db.Cities.Find(id);

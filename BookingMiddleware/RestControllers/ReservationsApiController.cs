@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
+using AutoMapper;
+using BookingMiddleware.DTO;
 
 namespace BookingMiddleware.Controllers
 {
@@ -18,14 +15,15 @@ namespace BookingMiddleware.Controllers
         private BookingDbContext db = new BookingDbContext();
 
         // GET: api/Reservations
-        public List<Reservation> GetReservations()
+        public IHttpActionResult GetReservations()
         {
-            var list = db.Reservations.Include("City").ToList();
-            return list;
+            var getAll = db.Reservations.Include("City").ToList();
+            var dto = Mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDTO>>(getAll);
+            return Ok(dto);
         }
 
         // GET: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
+        [ResponseType(typeof(ReservationDTO))]
         public IHttpActionResult GetReservation(int? id)
         {
             Reservation reservation = 
@@ -36,62 +34,29 @@ namespace BookingMiddleware.Controllers
             {
                 return NotFound();
             }
+            var dto = Mapper.Map<Reservation, ReservationDTO>(reservation);
 
-            return Ok(reservation);
+            return Ok(dto);
         }
 
-        // PUT: api/Reservations/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutReservation(int id, Reservation reservation)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != reservation.ReservationId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(reservation).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReservationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+      
         // POST: api/Reservations
-        [ResponseType(typeof(Reservation))]
-        public IHttpActionResult PostReservation(Reservation reservation)
+        [ResponseType(typeof(ReservationDTO))]
+        public IHttpActionResult PostReservation(ReservationDTO reservation)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.Reservations.Add(reservation);
+            var dto = Mapper.Map<ReservationDTO, Reservation>(reservation);
+            var result=db.Reservations.Add(dto);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationId }, reservation);
+            return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationId }, result);
         }
 
         // DELETE: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
+        [ResponseType(typeof(ReservationDTO))]
         public IHttpActionResult DeleteReservation(int id)
         {
             Reservation reservation = db.Reservations.Find(id);
