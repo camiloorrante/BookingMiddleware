@@ -23,11 +23,14 @@ namespace BookingMiddleware.Models
         [Required(ErrorMessage = "El email del cliente es obligatorio")]
         public string Email { get; set; }
 
-        public TimeSpan Duration { get; set; }
+        [Required(ErrorMessage = "La duración es obligatoria")]
+        [Display(Name = "Duración")]
+        public int Duration { get; set; }
 
-        [Display(Name = "Ciudad")]
+        
         [ForeignKey("City")]
         public int CityId { get; set; }
+
         public City City { get; set; }
     }
 }

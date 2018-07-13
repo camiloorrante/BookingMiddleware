@@ -9,7 +9,7 @@ namespace BookingMiddleware.Models
 {
     public class City
     {
-        public int CityId { get; set; }
+        public int Id { get; set; }
         public int apiId { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }

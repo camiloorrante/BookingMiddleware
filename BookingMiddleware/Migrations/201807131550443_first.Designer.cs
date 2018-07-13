@@ -7,13 +7,13 @@ namespace BookingMiddleware.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class cambionombrecityid : IMigrationMetadata
+    public sealed partial class first : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(cambionombrecityid));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(first));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807131520223_cambionombrecityid"; }
+            get { return "201807131550443_first"; }
         }
         
         string IMigrationMetadata.Source

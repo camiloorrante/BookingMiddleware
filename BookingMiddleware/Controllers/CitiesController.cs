@@ -27,7 +27,7 @@ namespace BookingMiddleware.Controllers
             foreach (var ciudad in _ciudaes)
             {
                 City city = new City();
-                city.apiId = ciudad.CityId;
+                city.apiId = ciudad.Id;
                 city.Name = ciudad.Name;
                 city.Country = ciudad.Country;
                 db.Cities.Add(city);
@@ -67,7 +67,7 @@ namespace BookingMiddleware.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != city.CityId)
+            if (id != city.Id)
             {
                 return BadRequest();
             }
@@ -105,7 +105,7 @@ namespace BookingMiddleware.Controllers
             db.Cities.Add(city);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = city.CityId }, city);
+            return CreatedAtRoute("DefaultApi", new { id = city.Id }, city);
         }
 
         // DELETE: api/Cities/5
@@ -135,7 +135,7 @@ namespace BookingMiddleware.Controllers
 
         private bool CityExists(int id)
         {
-            return db.Cities.Count(e => e.CityId == id) > 0;
+            return db.Cities.Count(e => e.Id == id) > 0;
         }
     }
 }
