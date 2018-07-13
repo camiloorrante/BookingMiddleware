@@ -1,5 +1,4 @@
-﻿@model BookingMiddleware.Models.Reservation
-
+﻿@model BookingMiddleware.Models.ReservationViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -11,48 +10,48 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.City.Name)
+            @Html.DisplayNameFor(model => model.Reservation.City.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.City.Name)
+            @Html.DisplayFor(model => model.Reservation.City.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ClientName)
+            @Html.DisplayNameFor(model => model.Reservation.ClientName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientName)
+            @Html.DisplayFor(model => model.Reservation.ClientName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ClientLastName)
+            @Html.DisplayNameFor(model => model.Reservation.ClientLastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientLastName)
+            @Html.DisplayFor(model => model.Reservation.ClientLastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Reservation.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Reservation.Email)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Duration)
+            @Html.DisplayNameFor(model => model.Reservation.Duration)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Duration)
+            @Html.DisplayFor(model => model.Reservation.Duration)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ReservationId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Reservation.ReservationId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
