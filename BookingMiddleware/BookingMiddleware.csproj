@@ -168,8 +168,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Reservations1Controller.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
+    <Compile Include="Controllers\ReservationsApiController.cs" />
     <Compile Include="Database\BookingDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -182,9 +182,22 @@
     <Compile Include="Migrations\201807130001251_apiid.Designer.cs">
       <DependentUpon>201807130001251_apiid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807131515224_modificacioncityId.cs" />
+    <Compile Include="Migrations\201807131515224_modificacioncityId.Designer.cs">
+      <DependentUpon>201807131515224_modificacioncityId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807131520223_cambionombrecityid.cs" />
+    <Compile Include="Migrations\201807131520223_cambionombrecityid.Designer.cs">
+      <DependentUpon>201807131520223_cambionombrecityid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807131526233_nombresenreservation.cs" />
+    <Compile Include="Migrations\201807131526233_nombresenreservation.Designer.cs">
+      <DependentUpon>201807131526233_nombresenreservation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\ReservationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +239,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Reservations1\Create.cshtml" />
-    <Content Include="Views\Reservations1\Details.cshtml" />
-    <Content Include="Views\Reservations1\Index.cshtml" />
+    <Content Include="Views\Reservations\Create.cshtml" />
+    <Content Include="Views\Reservations\Details.cshtml" />
+    <Content Include="Views\Reservations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -252,6 +265,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807130001251_apiid.resx">
       <DependentUpon>201807130001251_apiid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807131515224_modificacioncityId.resx">
+      <DependentUpon>201807131515224_modificacioncityId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807131520223_cambionombrecityid.resx">
+      <DependentUpon>201807131520223_cambionombrecityid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807131526233_nombresenreservation.resx">
+      <DependentUpon>201807131526233_nombresenreservation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

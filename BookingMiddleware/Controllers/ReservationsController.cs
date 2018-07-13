@@ -2,105 +2,86 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web;
+using System.Web.Mvc;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
 
 namespace BookingMiddleware.Controllers
 {
-    public class ReservationsController : ApiController
+    public class ReservationsController : Controller
     {
         private BookingDbContext db = new BookingDbContext();
+        private ReservationViewModel reservationViewModel = new ReservationViewModel();
 
-        // GET: api/Reservations
-        public IQueryable<Reservation> GetReservations()
+        // GET: Reservations1
+        public ActionResult Index()
         {
-            return db.Reservations;
+            var reservations = db.Reservations.Include(r => r.City);
+            return View(reservations.ToList());
         }
 
-        // GET: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
-        public IHttpActionResult GetReservation(int id)
+        // GET: Reservations1/Details/5
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Reservation reservation = db.Reservations.Find(id);
             if (reservation == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
-
-            return Ok(reservation);
+            return View(reservation);
         }
 
-        // PUT: api/Reservations/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutReservation(int id, Reservation reservation)
+        // GET: Reservations1/Create
+        public ActionResult Create()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            reservationViewModel.Reservation = new Reservation();
+            reservationViewModel.Cities = db.Cities.ToList();
 
-            if (id != reservation.ReservationId)
-            {
-                return BadRequest();
-            }
+            return View(reservationViewModel);
+        }
 
-            db.Entry(reservation).State = EntityState.Modified;
-
-            try
+        // POST: Reservations1/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ReservationId,ClientName,ClientLastName,Email,Duration,CityID")] Reservation reservation)
+        {
+            if (ModelState.IsValid)
             {
+                db.Reservations.Add(reservation);
                 db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReservationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToAction("Index");
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            ViewBag.CityID = new SelectList(db.Cities, "Id", "Name", reservation.CityId);
+            return View(reservation);
         }
 
-        // POST: api/Reservations
-        [ResponseType(typeof(Reservation))]
-        public IHttpActionResult PostReservation(Reservation reservation)
+        // POST: Reservations1/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ReservationId,ClientName,ClientLastName,Email,Duration,CityID")] Reservation reservation)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                db.Entry(reservation).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            db.Reservations.Add(reservation);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationId }, reservation);
+            ViewBag.CityID = new SelectList(db.Cities, "Id", "Name", reservation.CityId);
+            return View(reservation);
         }
 
-        // DELETE: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
-        public IHttpActionResult DeleteReservation(int id)
-        {
-            Reservation reservation = db.Reservations.Find(id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-
-            db.Reservations.Remove(reservation);
-            db.SaveChanges();
-
-            return Ok(reservation);
-        }
 
         protected override void Dispose(bool disposing)
         {
@@ -109,11 +90,6 @@ namespace BookingMiddleware.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ReservationExists(int id)
-        {
-            return db.Reservations.Count(e => e.ReservationId == id) > 0;
         }
     }
 }
