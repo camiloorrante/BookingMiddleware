@@ -21,17 +21,20 @@ namespace BookingMiddleware.Controllers
         [Route("api/cities/SaveCities")]
         public IHttpActionResult SaveCities(List<City> _ciudaes)
         {
+
+      
+            
             foreach (var ciudad in _ciudaes)
             {
                 City city = new City();
-                city.Id = ciudad.Id;
+                city.apiId = ciudad.Id;
                 city.Name = ciudad.Name;
                 city.Country = ciudad.Country;
                 db.Cities.Add(city);
                 db.SaveChanges(); 
 
             }
-
+           
             return Ok();
         }
 

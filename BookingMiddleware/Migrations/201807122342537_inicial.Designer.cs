@@ -13,7 +13,7 @@ namespace BookingMiddleware.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201807122147201_inicial"; }
+            get { return "201807122342537_inicial"; }
         }
         
         string IMigrationMetadata.Source

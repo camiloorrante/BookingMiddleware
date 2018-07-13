@@ -166,14 +166,21 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Reservations1Controller.cs" />
+    <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Database\BookingDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807122147201_inicial.cs" />
-    <Compile Include="Migrations\201807122147201_inicial.Designer.cs">
-      <DependentUpon>201807122147201_inicial.cs</DependentUpon>
+    <Compile Include="Migrations\201807122342537_inicial.cs" />
+    <Compile Include="Migrations\201807122342537_inicial.Designer.cs">
+      <DependentUpon>201807122342537_inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807130001251_apiid.cs" />
+    <Compile Include="Migrations\201807130001251_apiid.Designer.cs">
+      <DependentUpon>201807130001251_apiid.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
@@ -219,6 +226,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Reservations1\Create.cshtml" />
+    <Content Include="Views\Reservations1\Details.cshtml" />
+    <Content Include="Views\Reservations1\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -237,8 +247,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807122147201_inicial.resx">
-      <DependentUpon>201807122147201_inicial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807122342537_inicial.resx">
+      <DependentUpon>201807122342537_inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807130001251_apiid.resx">
+      <DependentUpon>201807130001251_apiid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
