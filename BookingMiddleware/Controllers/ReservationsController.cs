@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
 using BookingMiddleware.Usables;
+using Newtonsoft.Json;
 
 namespace BookingMiddleware.Controllers
 {
@@ -31,6 +32,7 @@ namespace BookingMiddleware.Controllers
         // GET: Reservations/Details/5
         public ActionResult Details(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +41,25 @@ namespace BookingMiddleware.Controllers
             if (reservation == null)
             {
                 return HttpNotFound();
+            }            
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://api.openweathermap.org/data/2.5/");
+                //HTTP GET
+                var responseTask = client.GetAsync("weather?id=2172797&lang=es&APPID=98034ba9627d66e3fd35cf05e0d42ea1");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var content = result.Content.ReadAsStringAsync();
+                    WeatherResponse weather = JsonConvert.DeserializeObject<WeatherResponse>(content.Result.ToString());
+                }
+                else //web api sent error response 
+                {
+                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+                }
             }
             return View(reservation);
         }
@@ -82,29 +103,6 @@ namespace BookingMiddleware.Controllers
 
             return RedirectToAction("Create");
         }
-
-
-
-
-
-
-        // POST: Reservations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReservationId,ClientName,ClientLastName,Email,Duration,CityID")] Reservation reservation)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(reservation).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CityID = new SelectList(db.Cities, "Id", "Name", reservation.CityId);
-            return View(reservation);
-        }
-
 
         protected override void Dispose(bool disposing)
         {

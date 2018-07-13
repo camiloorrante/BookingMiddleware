@@ -5,9 +5,9 @@ using System.Web;
 
 namespace BookingMiddleware.Models
 {
-    public class ReservationViewModel
+    public class ReservationDetailViewModel
     {
         public Reservation Reservation { get; set; }
-        public ICollection<City> Cities { get; set; }
+        public WeatherResponse WeatherResponse { get; set; }
     }
 }
