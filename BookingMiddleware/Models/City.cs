@@ -11,8 +11,11 @@ namespace BookingMiddleware.Models
     {
         public int Id { get; set; }
         public int apiId { get; set; }
+        [Display(Name = "Ciudad")]
         public string Name { get; set; }
         public string Country { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
+
+        public bool ShouldSerializeReservations() { return false; }
     }
 }

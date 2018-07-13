@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using BookingMiddleware.Database;
 using BookingMiddleware.Models;
-using System.Net.Http;
-using BookingMiddleware.Usables;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
 using BookingMiddleware.Services;
 
 
@@ -25,6 +12,7 @@ namespace BookingMiddleware.Controllers
     {
         private BookingDbContext db = new BookingDbContext();
         private ReservationServices service = new ReservationServices();
+        private WeatherService weatherService = new WeatherService();
         private ReservationViewModel reservationViewModel = new ReservationViewModel();
         static HttpClient client = new HttpClient();
         // GET: Reservations
@@ -40,6 +28,9 @@ namespace BookingMiddleware.Controllers
             ReservationViewModel reservationDetail = new ReservationViewModel();
             Reservation reservation = service.GetById(id);
             reservationDetail.Reservation = reservation;
+            reservationDetail.WeatherResponse = weatherService.GetDetail(reservation.City.apiId.ToString());
+
+
 
             return View(reservationDetail);
 

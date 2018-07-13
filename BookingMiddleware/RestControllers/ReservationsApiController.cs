@@ -18,16 +18,20 @@ namespace BookingMiddleware.Controllers
         private BookingDbContext db = new BookingDbContext();
 
         // GET: api/Reservations
-        public IQueryable<Reservation> GetReservations()
+        public List<Reservation> GetReservations()
         {
-            return db.Reservations;
+            var list = db.Reservations.Include("City").ToList();
+            return list;
         }
 
         // GET: api/Reservations/5
         [ResponseType(typeof(Reservation))]
         public IHttpActionResult GetReservation(int? id)
         {
-            Reservation reservation = db.Reservations.Find(id);
+            Reservation reservation = 
+                db.Reservations.Include("City")
+                    .Where(s => s.ReservationId == id)
+                    .FirstOrDefault<Reservation>();
             if (reservation == null)
             {
                 return NotFound();

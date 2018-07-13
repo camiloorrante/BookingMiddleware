@@ -9,5 +9,6 @@ namespace BookingMiddleware.Models
     {
         public Reservation Reservation { get; set; }
         public ICollection<City> Cities { get; set; }
+        public WeatherResponse WeatherResponse { get; set; }
     }
 }

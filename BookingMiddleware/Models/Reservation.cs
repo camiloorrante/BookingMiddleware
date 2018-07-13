@@ -30,7 +30,7 @@ namespace BookingMiddleware.Models
         
         [ForeignKey("City")]
         public int CityId { get; set; }
-
+        
         public City City { get; set; }
     }
 }
