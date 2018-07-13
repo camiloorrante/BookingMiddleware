@@ -8,7 +8,7 @@ namespace BookingMiddleware.Usables
     static public class Constant
     {
 
-        static private string OpenWeatherMapApiUrl = "http://api.openweathermap.org/data/2.5/weather?lang=es&id=";
+        static private string OpenWeatherMapApiUrl = "http://api.openweathermap.org/data/2.5/weather?lang=es&units=metric&id=";
         static private string ApiKey = "&APPID=98034ba9627d66e3fd35cf05e0d42ea1";
         static public string BaseUrl = string.Format("{0}://{1}{2}{3}",
               System.Web.HttpContext.Current.Request.Url.Scheme,

@@ -54,13 +54,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.WeatherResponse.Main.Temp)
+            @Html.DisplayFor(model => model.WeatherResponse.Main.Temp) ℃
         </dd>
-
+        <dt></dt>
+        <dd><img src="http://openweathermap.org/img/w/@(Model.WeatherResponse.Weather.First().Icon).png" /></dd>
 
 
     </dl>
-    <img src="http://openweathermap.org/img/w/@(Model.WeatherResponse.Weather.First().Icon).png" />
+    
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Reservation.ReservationId }) |
